@@ -6,12 +6,12 @@ from datetime import datetime
 
 import web
 
-from app.weblib.workflows.auth import LoginFacebookWorkflow
-from app.weblib.workflows.auth import FakeLoginWorkflow
-from app.weblib.pubsub import LoggingSubscriber
-from app.weblib.pubsub.auth import CodeExtractor
-from app.weblib.pubsub.auth import InSessionVerifier
-from app.weblib.pubsub.auth import OAuthInvoker
+from weblib.workflows.auth import LoginFacebookWorkflow
+from weblib.workflows.auth import FakeLoginWorkflow
+from weblib.pubsub import LoggingSubscriber
+from weblib.pubsub.auth import CodeExtractor
+from weblib.pubsub.auth import InSessionVerifier
+from weblib.pubsub.auth import OAuthInvoker
 
 
 class FakeLoginController(object):
@@ -52,7 +52,7 @@ class LoginFacebookController():
                 raise web.found(web.ctx.path_url + '/authorized')
 
         loginfacebook.add_subscriber(logger, LoginFacebookSubscriber())
-        loginfacebook.perform(web.ctx.logger, 
+        loginfacebook.perform(web.ctx.logger,
                               InSessionVerifier(), CodeExtractor(),
                               OAuthInvoker(), web.ctx.path_url,
                               web.ctx.session, web.input(error=None, code=None),

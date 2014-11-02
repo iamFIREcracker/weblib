@@ -4,7 +4,7 @@
 import web
 from web.contrib.template import render_jinja
 
-from app.weblib.logging import create_logger
+from weblib.logging import create_logger
 
 
 def load_logger():

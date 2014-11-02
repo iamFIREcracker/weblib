@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-from app.weblib.pubsub import Publisher
+from weblib.pubsub import Publisher
 
 
 class InSessionVerifier(Publisher):
@@ -65,7 +65,7 @@ class CodeExtractor(Publisher):
         On success the code is published within a 'code_valid' message.  If the
         user has denied permissions to the application a 'permission_denied'
         message is sent back to subscribers and finally if the code is not
-        present, a 'code_absent' will be generated. 
+        present, a 'code_absent' will be generated.
         """
         if params.error:
             self.publish('permission_denied')

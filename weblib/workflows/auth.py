@@ -4,11 +4,11 @@
 import urllib
 import urlparse
 
-from app.weblib.pubsub import Publisher
-from app.weblib.pubsub import LoggingSubscriber
-from app.weblib.pubsub.auth import CodeExtractor
-from app.weblib.pubsub.auth import InSessionVerifier
-from app.weblib.pubsub.auth import OAuthInvoker
+from weblib.pubsub import Publisher
+from weblib.pubsub import LoggingSubscriber
+from weblib.pubsub.auth import CodeExtractor
+from weblib.pubsub.auth import InSessionVerifier
+from weblib.pubsub.auth import OAuthInvoker
 
 
 class FakeLoginWorkflow(Publisher):
