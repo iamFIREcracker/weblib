@@ -28,7 +28,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base as _declarative_base
 
 
-
 def create_engine():
     '''Creates a new database engine.'''
     return _create_engine(web.config.DATABASE_URL, convert_unicode=True)
@@ -55,25 +54,6 @@ def declarative_base():
     Base.query = Session.query_property()
     return Base
 
-
-def init_db():
-    # import all modules here that might define models so that
-    # they will be registered properly on the metadata.  Otherwise
-    # you will have to import them first before calling init_db()
-    import app.models
-    app.models.Base.metadata.create_all(bind=create_engine())
-    app.models.Base.session.commit()
-
-
-def clear_db():
-    import contextlib
-    import app.models
-    engine = create_engine()
-    with contextlib.closing(engine.connect()) as con:
-        trans = con.begin()
-        for table in reversed(app.models.Base.metadata.sorted_tables):
-            con.execute(table.delete())
-        trans.commit()
 
 def uuid():
     """Generates a ``uuid``."""
