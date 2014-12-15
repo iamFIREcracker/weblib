@@ -152,4 +152,6 @@ class FacebookProfileGetter(Publisher):
         else:
             data['name'] = adapter.name(data['first_name'], data['last_name'])
             data['avatar'] = adapter.avatar(data['id'])
+            data['email'] = (data['email'] if 'email' in data
+                             else 'fuckyou@stupid.api')
             self.publish('profile_found', data)
