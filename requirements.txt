@@ -12,5 +12,5 @@ pytz==2014.10
 redis==2.10.3
 web.py==0.37
 webassets==0.10.1
--e hg+ssh://hg@bitbucket.org/iamFIREcracker/weblib@36df19a03a6245bbba01faec41d526680bf6a962#egg=weblib-dev
+-e .
 wsgiref==0.1.2
