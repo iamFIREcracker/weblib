@@ -4,6 +4,8 @@
 import json
 import urllib2
 
+import requests
+
 
 class FacebookAdapter(object):
     """Defines a tiny adapter of the Facebook Graph API."""
@@ -24,5 +26,10 @@ class FacebookAdapter(object):
             last_name = last_name[0] + '.'
         return ' '.join([first_name, last_name])
 
-    def avatar(self, user_id):
+    def avatar_unresolved(self, user_id):
         return self.AVATAR % dict(id=user_id)
+
+    def avatar(self, user_id):
+        url = self.avatar_unresolved(user_id)
+        r = requests.get(url, allow_redirects=False)
+        return r.headers['Location']
