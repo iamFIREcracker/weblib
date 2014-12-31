@@ -24,6 +24,7 @@ setup(name='weblib',
           'celery==3.1.17',
           'oauth2==1.5.211',
           'redis==2.10.3',
+          'requests==2.5.1',
           'web.py==0.37',
           'webassets==0.10.1',
       ])
