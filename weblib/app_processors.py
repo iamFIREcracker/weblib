@@ -4,6 +4,8 @@
 import web
 
 from weblib.logging import create_logger
+from jinja2 import TemplateNotFound
+from jinja2 import TemplatesNotFound
 
 
 def load_logger():
@@ -15,6 +17,39 @@ def load_path_url():
     '''Add 'path_url' property to the shared context containing the
     concatenation of ``web.ctx.home`` and ``web.ctx.path``.'''
     web.ctx.path_url = web.ctx.home + web.ctx.path
+
+
+def load_render(views, **globals):
+    '''Add the renderer to the shared context.'''
+
+    class render_jinja:
+        """Rendering interface to Jinja2 Templates
+
+        Example:
+
+            render= render_jinja('templates')
+            render.hello(name='jinja2')
+            """
+        def __init__(self, *a, **kwargs):
+            extensions = kwargs.pop('extensions', [])
+            globals = kwargs.pop('globals', {})
+
+            from jinja2 import Environment,FileSystemLoader
+            self._lookup = Environment(loader=FileSystemLoader(*a, **kwargs), extensions=extensions)
+            self._lookup.globals.update(globals)
+
+        def __getattr__(self, name):
+            paths = [name + '.' + ext for ext in ['html', 'xml']]
+            t = self._lookup.select_template(paths)
+            return t.render
+
+    render = render_jinja(views, encoding='utf-8',
+                          extensions=['jinja2.ext.do'],
+                          globals=globals)
+
+    def inner():
+        web.ctx.render = render
+    return inner
 
 
 def load_render(views, **globals):
