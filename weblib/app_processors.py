@@ -52,47 +52,6 @@ def load_render(views, **globals):
     return inner
 
 
-def load_render(views, **globals):
-    '''Add the renderer to the shared context.'''
-    import pdb; pdb.set_trace()  # XXX BREAKPOINT
-
-    class render_jinja:
-        """Rendering interface to Jinja2 Templates
-
-        Example:
-
-            render= render_jinja('templates')
-            render.hello(name='jinja2')
-            """
-            def __init__(self, *a, **kwargs):
-                extensions = kwargs.pop('extensions', [])
-                globals = kwargs.pop('globals', {})
-
-            from jinja2 import Environment,FileSystemLoader
-            self._lookup = Environment(loader=FileSystemLoader(*a, **kwargs), extensions=extensions)
-            self._lookup.globals.update(globals)
-
-        def __getattr__(self, name):
-            # Assuming all templates end with .html
-            import pdb; pdb.set_trace()  # XXX BREAKPOINT
-
-            try:
-                path = name + '.html'
-                t = self._lookup.get_template(path)
-            except TemplateNotFound:
-                path = name + '.xml'
-                t = self._lookup.get_template(path)
-            return t.render
-
-    render = render_jinja(views, encoding='utf-8',
-                          extensions=['jinja2.ext.do'])
-    render._lookup.globals.update(globals)
-
-    def inner():
-        web.ctx.render = render
-    return inner
-
-
 def load_render_with_assets(views, env, **globals):
     '''Add the renderer to the shared context.'''
     from webassets.ext.jinja2 import AssetsExtension
