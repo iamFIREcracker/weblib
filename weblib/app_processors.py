@@ -111,17 +111,20 @@ def load_session(session):
         web.ctx.session = session
     return inner
 
+
 def load_gettext(gettext):
     '''Load the gettext object into the shared context.'''
     def inner():
         web.ctx.gettext = gettext
     return inner
 
+
 def load_redis(redis):
     '''Load a Redis client object into the shared context.'''
     def inner():
         web.ctx.redis = redis
     return inner
+
 
 def load_and_manage_orm(ormfactory):
     '''Load ORM database connection and manage exceptions properly.'''
@@ -133,6 +136,7 @@ def load_and_manage_orm(ormfactory):
         finally:
             ormfactory.remove()
     return inner
+
 
 def load_dict(**kw):
     def inner():
