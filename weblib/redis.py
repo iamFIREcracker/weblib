@@ -9,7 +9,9 @@ import web
 __all__ = ['create_redis']
 
 
-def create_redis(location=None):
-    if location is None:
-        location = web.config.get('REDIS_LOCATION', 'localhost')
-    return redis.Redis(location)
+def create_redis(host=None, port=None):
+    if host is None:
+        host = web.config.get('REDIS_HOST', 'localhost')
+    if port is None:
+        port = web.config.get('REDIS_PORT', 6379)
+    return redis.Redis(host=host, port=port)
