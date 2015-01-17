@@ -77,10 +77,15 @@ def load_gettext(gettext):
     return inner
 
 
-def load_redis(redis):
-    '''Load a Redis client object into the shared context.'''
-    def inner():
-        web.ctx.redis = redis
+def load_and_manage_redis(redisfactory):
+    def inner(handler):
+        web.ctx.redis = redisfactory()
+
+        try:
+            return handler()
+        finally:
+            web.ctx.redis = None  # Get out of here
+
     return inner
 
 
