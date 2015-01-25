@@ -6,7 +6,9 @@ import web
 
 def load_logger(logger):
     '''Add a logger to the shared context.'''
-    web.ctx.logger = logger
+    def inner():
+        web.ctx.logger = logger
+    return inner
 
 
 def load_path_url():
