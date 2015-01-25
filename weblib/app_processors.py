@@ -3,12 +3,10 @@
 
 import web
 
-from weblib.logging import create_logger
 
-
-def load_logger():
+def load_logger(logger):
     '''Add a logger to the shared context.'''
-    web.ctx.logger = create_logger()
+    web.ctx.logger = logger
 
 
 def load_path_url():
@@ -18,6 +16,7 @@ def load_path_url():
 
 
 class render_jinja:
+
     """Rendering interface to Jinja2 Templates
 
     Example:
