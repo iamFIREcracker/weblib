@@ -25,6 +25,7 @@ setup(name='weblib',
           'oauth2==1.5.211',
           'redis==2.10.3',
           'requests==2.5.1',
+          'cssmin==0.2.0',
           'web.py==0.37',
           'webassets==0.10.1',
       ])
