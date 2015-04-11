@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
 import urllib2
 
 import requests
@@ -15,7 +14,7 @@ class FacebookAdapter(object):
     def profile(self, access_token):
         url = self.PROFILE % dict(token=access_token)
         try:
-            return (json.load(urllib2.urlopen(url)), None)
+            return (requests.get(url).json(), None)
         except urllib2.HTTPError as e:
             return (None, ('Unable to contact the server', url, str(e)))
 
@@ -36,8 +35,8 @@ class FacebookAdapter(object):
 
     MUTUAL_FRIENDS = ('https://graph.facebook.com'
                       '/v2.3/%(id)s?'
-                      '&fields=context.fields(mutual_friends{first_name,last_name,picture}).limit(10)'
-                      '&access_token=%(token)s')
+                      'fields=context.fields(mutual_friends{first_name,last_name,picture}).limit(10)&'
+                      'access_token=%(token)s&')
 
     def mutual_friends(self, access_token, other_user_id):
         url = self.MUTUAL_FRIENDS % dict(id=other_user_id,
