@@ -43,6 +43,10 @@ class FacebookAdapter(object):
         url = self.MUTUAL_FRIENDS % dict(id=other_user_id,
                                          token=access_token)
         try:
-            return (json.load(urllib2.urlopen(url)), None)
+            data = json.load(urllib2.urlopen(url))
+            if 'context' not in data \
+                    or 'mutual_friends' not in data['context']:
+                return (data, None)
+            return (None, ('Invalid Facebook response', url, str(data)))
         except urllib2.HTTPError as e:
             return (None, ('Unable to contact the server', url, str(e)))
