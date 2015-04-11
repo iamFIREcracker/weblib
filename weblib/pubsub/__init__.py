@@ -156,3 +156,19 @@ class FacebookProfileGetter(Publisher):
             data['email'] = (data['email'] if 'email' in data
                              else 'fuckyou@stupid.api')
             self.publish('profile_found', data)
+
+
+class FacebookMutualFriendsGetter(Publisher):
+    def perform(self, adapter, access_token, other_user_id):
+        (data, error) = adapter.mutual_friends(access_token, other_user_id)
+        if error is not None:
+            self.publish('mutual_friends_not_found', error)
+        else:
+            mutual_friends = data['context']['mutual_friends']
+            summary = mutual_friends['summary']
+            data = [dict(name=adapter.name(d['first_name'],
+                                           d['last_name']),
+                         avatar=d['picture']['data']['url'])
+                    for d in mutual_friends['data']]
+            self.publish('mutual_friends_found',
+                         dict(summary=summary, data=data))

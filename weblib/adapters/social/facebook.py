@@ -33,3 +33,16 @@ class FacebookAdapter(object):
         url = self.avatar_unresolved(user_id)
         r = requests.get(url, allow_redirects=False)
         return r.headers['Location']
+
+    MUTUAL_FRIENDS = ('https://graph.facebook.com'
+                      '/v2.3/%(id)s?'
+                      '&fields=context.fields(mutual_friends{first_name,last_name,picture}).limit(10)'
+                      '&access_token=%(token)s')
+
+    def mutual_friends(self, access_token, other_user_id):
+        url = self.MUTUAL_FRIENDS % dict(id=other_user_id,
+                                         token=access_token)
+        try:
+            return (json.load(urllib2.urlopen(url)), None)
+        except urllib2.HTTPError as e:
+            return (None, ('Unable to contact the server', url, str(e)))
