@@ -165,7 +165,8 @@ class FacebookMutualFriendsGetter(Publisher):
             self.publish('mutual_friends_not_found', error)
         else:
             mutual_friends = data['context']['mutual_friends']
-            summary = mutual_friends['summary']
+            summary = \
+                dict(total_counts=mutual_friends['summary']['total_counts'])
             data = [dict(name=adapter.name(d['first_name'],
                                            d['last_name']),
                          avatar=d['picture']['data']['url'])
