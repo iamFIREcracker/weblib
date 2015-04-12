@@ -109,7 +109,7 @@ class CachedFacebookMutualFriendsGetter(Publisher):
         cache_id = _facebook_mutualfriends_cacheid(user_id, other_user_id)
         raw = redis.get(cache_id)
         if raw is None:
-            self.publish('cached_mutual_friends_not_found', id)
+            self.publish('cached_mutual_friends_not_found', cache_id)
         else:
             self.publish('cached_mutual_friends_found', json.loads(raw))
 
