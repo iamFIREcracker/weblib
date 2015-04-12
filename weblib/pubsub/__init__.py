@@ -168,7 +168,7 @@ class FacebookMutualFriendsGetter(Publisher):
         else:
             mutual_friends = data['context']['mutual_friends']
             summary = \
-                dict(total_counts=mutual_friends['summary']['total_counts'])
+                dict(total_count=mutual_friends['summary']['total_count'])
             data = [dict(name=adapter.name(d['first_name'],
                                            d['last_name']),
                          avatar=d['picture']['data']['url'])
