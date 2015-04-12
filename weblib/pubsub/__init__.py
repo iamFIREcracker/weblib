@@ -159,8 +159,10 @@ class FacebookProfileGetter(Publisher):
 
 
 class FacebookMutualFriendsGetter(Publisher):
-    def perform(self, adapter, access_token, other_user_id):
-        (data, error) = adapter.mutual_friends(access_token, other_user_id)
+    def perform(self, adapter, app_secret, access_token, other_user_id):
+        (data, error) = adapter.mutual_friends(app_secret,
+                                               access_token,
+                                               other_user_id)
         if error is not None:
             self.publish('mutual_friends_not_found', error)
         else:

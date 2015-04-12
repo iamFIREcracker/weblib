@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import hashlib
+import hmac
 import urllib2
 
 import requests
@@ -36,10 +38,15 @@ class FacebookAdapter(object):
     MUTUAL_FRIENDS = ('https://graph.facebook.com'
                       '/v2.3/%(id)s?'
                       'fields=context.fields(mutual_friends{first_name,last_name,picture}).limit(10)&'
+                      'appsecret_proof=%(appsecret_proof)s&'
                       'access_token=%(token)s&')
 
-    def mutual_friends(self, access_token, other_user_id):
+    def mutual_friends(self, app_secret, access_token, other_user_id):
+        appsecret_proof = hmac.new(app_secret,
+                                   msg=access_token,
+                                   digestmod=hashlib.sha256).hexdigest()
         url = self.MUTUAL_FRIENDS % dict(id=other_user_id,
+                                         appsecret_proof=appsecret_proof,
                                          token=access_token)
         try:
             data = requests.get(url).json()
