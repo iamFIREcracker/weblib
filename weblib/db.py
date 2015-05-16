@@ -21,6 +21,7 @@ from sqlalchemy import Text
 from sqlalchemy import Time
 from sqlalchemy import text
 from sqlalchemy.orm import backref
+from sqlalchemy.orm import contains_eager
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import joinedload_all
 from sqlalchemy.orm import relationship
