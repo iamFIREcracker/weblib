@@ -11,7 +11,7 @@ kombu==3.0.24
 oauth2==1.5.211
 pytz==2014.10
 redis==2.10.3
-requests==2.5.1
+requests==2.20.0
 web.py==0.37
 webassets==0.10.1
 -e .
